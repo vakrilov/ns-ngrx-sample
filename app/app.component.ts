@@ -26,15 +26,17 @@ interface AppState {
         </GridLayout>
     </GridLayout>`,
     styles: [`
-        label {
+        button, label, stack-layout {
+            horizontal-align: center;    
             vertical-align: center;
+        }
+        
+        label {
             font-size: 32;
-            margin: 0 4;
+            margin: 8;
         }
         
         button {
-            width: 28;
-            height: 28;
             font-size: 38;
         }
     `]

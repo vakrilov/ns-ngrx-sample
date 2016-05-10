@@ -18,6 +18,10 @@ import {LogMonitorButton} from './log-monitor-button';
       font-family: monospace;
     }
     
+    .toolbar {
+      horizontal-align: center;
+    }
+    
     .items {
       background-color: #69737D;
       horizontal-align: stretch;
@@ -25,11 +29,11 @@ import {LogMonitorButton} from './log-monitor-button';
   `],
   template: `
     <grid-layout rows="auto *" class="container">
-      <stack-layout orientation="horizontal">
-        <log-monitor-button text="Reset" (action)="handleReset()" [disabled]="canReset$ | async">
+      <stack-layout orientation="horizontal" class="toolbar">
+        <log-monitor-button text="Reset" (action)="handleReset()">
         </log-monitor-button>
 
-        <log-monitor-button text="Revert" (action)="handleRollback()">
+        <log-monitor-button text="Revert" (action)="handleRollback()" [disabled]="canRevert$ | async">
         </log-monitor-button>
 
         <log-monitor-button text="Sweep"(action)="handleSweep()" [disabled]="canSweep$ | async">
@@ -53,12 +57,12 @@ import {LogMonitorButton} from './log-monitor-button';
 })
 export class NSLogMonitor{
   private items$: Observable<LogEntryItem[]>;
-  private canRevert$ = this.devtools.liftedState.map(s => !(s.computedStates.length > 1));
+  private canRevert$: Observable<boolean>;
   private canSweep$: Observable<boolean>;
   private canCommit$: Observable<boolean>;
 
   constructor(private devtools: StoreDevtools){
-    this.canRevert$ =
+    this.canRevert$ = devtools.liftedState.map(s => !(s.computedStates.length > 1));
     this.canSweep$ = devtools.liftedState.map(s => !(s.skippedActionIds.length > 0));
     this.canCommit$ = devtools.liftedState.map(s => !(s.computedStates.length > 1));
 
