@@ -2,8 +2,9 @@
 import {nativeScriptBootstrap} from "nativescript-angular/application";
 import {AppComponent} from "./app.component";
 import {provideStore, Middleware, usePreMiddleware, usePostMiddleware} from '@ngrx/store';
+import {Devtools, instrumentStore} from '@ngrx/devtools';
+
 import {counter} from './counter';
-// import "rxjs/operator/do";
 import "rxjs/add/operator/do";
 
 const actionLog : Middleware = action => {
@@ -21,4 +22,5 @@ const stateLog : Middleware = state => {
 nativeScriptBootstrap(AppComponent, [
     provideStore({counter}, {counter: 0}),
     usePreMiddleware(actionLog),
-    usePostMiddleware(stateLog)]);
+    usePostMiddleware(stateLog),
+    instrumentStore()]);

@@ -3,33 +3,54 @@ import {Observable} from "rxjs";
 import {Store} from '@ngrx/store';
 import {INCREMENT, DECREMENT, RESET} from './counter';
 
+import { NSLogMonitor } from "./ns-log-monitor/log-monitor"
+
 interface AppState {
-  counter: number;
+    counter: number;
 }
 
 
 @Component({
     selector: "my-app",
+    directives: [NSLogMonitor],
     template: `
-<StackLayout orientation="horizontal">
-    <button text="+" (tap)="increment()">Increment</button>
-    <label [text]="counter | async"></label>
-    <button text="-" (tap)="decrement()">Decrement</button>
-</StackLayout>
-`,
+    <GridLayout rows="*, *">
+        <StackLayout orientation="horizontal">
+            <button text="+" (tap)="increment()">Increment</button>
+            <label [text]="counter | async"></label>
+            <button text="-" (tap)="decrement()">Decrement</button>
+        </StackLayout>
+        
+        <GridLayout row="1" backgroundColor="gray">
+            <ns-log-monitor></ns-log-monitor>
+        </GridLayout>
+    </GridLayout>`,
+    styles: [`
+        label {
+            vertical-align: center;
+            font-size: 32;
+            margin: 0 4;
+        }
+        
+        button {
+            width: 28;
+            height: 28;
+            font-size: 38;
+        }
+    `]
 })
 export class AppComponent {
     counter: Observable<number>;
-    constructor(public store: Store<AppState>){
+    constructor(public store: Store<AppState>) {
         this.counter = <Observable<number>>store.select('counter');
     }
-    increment(){
+    increment() {
         this.store.dispatch({ type: INCREMENT });
     }
-    decrement(){
+    decrement() {
         this.store.dispatch({ type: DECREMENT });
     }
-    reset(){
+    reset() {
         this.store.dispatch({ type: RESET });
     }
 }
