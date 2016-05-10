@@ -1,2 +1,5 @@
 node_modules
 platforms
+*.js
+*.js.map
+*.DC_Store
