@@ -3,7 +3,8 @@ import {Observable} from "rxjs";
 import {Store} from '@ngrx/store';
 import {INCREMENT, DECREMENT, RESET} from './counter';
 
-import { NSLogMonitor } from "./ns-log-monitor/log-monitor"
+// import { NSLogMonitor } from "./ns-log-monitor/log-monitor"
+import { DevToolsSlideOut } from "./ns-log-monitor/dev-tools-slide-out"
 
 interface AppState {
     counter: number;
@@ -12,18 +13,16 @@ interface AppState {
 
 @Component({
     selector: "my-app",
-    directives: [NSLogMonitor],
+    directives: [DevToolsSlideOut],
     template: `
-    <GridLayout rows="*, *">
-        <StackLayout orientation="horizontal">
+    <GridLayout>
+        <StackLayout class="app">
             <button text="+" (tap)="increment()">Increment</button>
             <label [text]="counter | async"></label>
             <button text="-" (tap)="decrement()">Decrement</button>
         </StackLayout>
         
-        <GridLayout row="1" backgroundColor="gray">
-            <ns-log-monitor></ns-log-monitor>
-        </GridLayout>
+        <dev-tools-slide-out></dev-tools-slide-out>
     </GridLayout>`,
     styles: [`
         button, label, stack-layout {
@@ -38,6 +37,12 @@ interface AppState {
         
         button {
             font-size: 38;
+        }
+        
+        .app {
+            vertical-align: top;
+            margin: 40;
+            orientation: horizontal;
         }
     `]
 })

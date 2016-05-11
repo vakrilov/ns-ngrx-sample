@@ -7,20 +7,21 @@ import {Devtools, instrumentStore} from '@ngrx/devtools';
 import {counter} from './counter';
 import "rxjs/add/operator/do";
 
-const actionLog : Middleware = action => {
+const actionLog: Middleware = action => {
     return action.do(val => {
         console.log('DISPATCHED ACTION: ' + JSON.stringify(val));
     });
 };
 
-const stateLog : Middleware = state => {
+const stateLog: Middleware = state => {
     return state.do(val => {
         console.log('NEW STATE: ' + JSON.stringify(val));
     });
 };
 
 nativeScriptBootstrap(AppComponent, [
-    provideStore({counter}, {counter: 0}),
+    provideStore({ counter }, { counter: 0 }),
     usePreMiddleware(actionLog),
     usePostMiddleware(stateLog),
-    instrumentStore()]);
+    instrumentStore()],
+    { startPageActionBarHidden: true });

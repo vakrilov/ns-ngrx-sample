@@ -37,7 +37,8 @@ import {LogMonitorButton} from './log-monitor-button';
       horizontal-align: stretch;
     }
     .title-bar {
-      horizontal-align: left;
+      text-align: left;
+      horizontal-align: stretch;
       vertical-align: center;
       margin: 10;
       font-family: monosapce;
